@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Formulario de Habitación</title>
+</head>
+<body>
+    <h1>Agregar Habitación</h1>
+    <form action="/habitaciones" method="post">
+        <label>Código:</label><br>
+        <input type="text" name="codigo" required><br><br>
+
+        <label>Tipo:</label><br>
+        <select name="tipo">
+            <option value="SIMPLE">Simple</option>
+            <option value="DOBLE">Doble</option>
+            <option value="SUITE">Suite</option>
+        </select><br><br>
+
+        <label>Servicios:</label><br>
+        <input type="text" name="servicios" required><br><br>
+
+        <label>Descripción:</label><br>
+        <textarea name="descripcion" required></textarea><br><br>
+
+        <button type="submit">Guardar</button>
+    </form>
+</body>
+</html>

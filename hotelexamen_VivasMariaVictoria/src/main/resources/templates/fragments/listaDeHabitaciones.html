@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Listado de Habitaciones</title>
+</head>
+<body>
+    <h1>Listado de Habitaciones</h1>
+    <a href="/habitaciones/formulario">Agregar Nueva Habitación</a>
+    <table border="1">
+        <tr>
+            <th>Código</th>
+            <th>Tipo</th>
+            <th>Servicios</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+        </tr>
+        <tr  data-th-each="habitacion : ${habitaciones}">
+            <td data-th-text="${habitacion.codigo}"></td>
+            <td data-th-text="${habitacion.tipo}"></td>
+            <td data-th-text="${habitacion.servicios}"></td>
+            <td data-th-text="${habitacion.estado ? 'Disponible' : 'Ocupada'}"></td>
+            <td>
+                <a data-th-href="@{/habitaciones/eliminar(codigo=${habitacion.codigo})}">Eliminar</a>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

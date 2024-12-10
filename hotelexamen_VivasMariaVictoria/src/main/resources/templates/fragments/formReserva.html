@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Formulario de Reserva</title>
+</head>
+<body>
+    <h1>Agregar Reserva</h1>
+    <form action="/reservas" method="post">
+        <label>DNI del Pasajero:</label><br>
+        <input type="text" name="dni" required><br><br>
+
+        <label>Código de Habitación:</label><br>
+        <input type="text" name="codigoHabitacion" required><br><br>
+
+        <label>Fecha de Reserva:</label><br>
+        <input type="date" name="fechaReserva" required><br><br>
+
+        <button type="submit">Reservar</button>
+    </form>
+</body>
+</html>

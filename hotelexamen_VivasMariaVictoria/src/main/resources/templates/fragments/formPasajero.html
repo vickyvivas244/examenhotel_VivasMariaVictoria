@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Formulario de Pasajero</title>
+</head>
+<body>
+    <h1>Agregar Pasajero</h1>
+    <form action="/pasajeros" method="post">
+        <label>DNI:</label><br>
+        <input type="text" name="dni" required><br><br>
+
+        <label>Nombre:</label><br>
+        <input type="text" name="nombre" required><br><br>
+
+        <label>Apellido:</label><br>
+        <input type="text" name="apellido" required><br><br>
+
+        <label>Ciudad de Procedencia:</label><br>
+        <input type="text" name="ciudadProcedencia" required><br><br>
+
+        <label>Fecha de Nacimiento:</label><br>
+        <input type="date" name="fechaNacimiento" required><br><br>
+
+        <label>Nacionalidad:</label><br>
+        <select name="nacionalidad">
+            <option value="ARGENTINA">Argentina</option>
+            <option value="BRASILEÑA">Brasileña</option>
+            <option value="CHILENA">Chilena</option>
+        </select><br><br>
+
+        <button type="submit">Guardar</button>
+    </form>
+</body>
+</html>
