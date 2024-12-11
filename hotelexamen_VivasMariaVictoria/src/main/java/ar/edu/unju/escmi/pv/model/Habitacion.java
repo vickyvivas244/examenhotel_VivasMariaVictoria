@@ -25,3 +25,4 @@ public class Habitacion {
         SIMPLE, DOBLE, SUITE
     }
 }
+
