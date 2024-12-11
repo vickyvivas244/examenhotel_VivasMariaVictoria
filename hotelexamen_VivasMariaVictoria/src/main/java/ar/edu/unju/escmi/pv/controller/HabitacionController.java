@@ -49,7 +49,7 @@ public class HabitacionController {
 
     // Eliminar lógicamente una habitación
     @PostMapping("/eliminar/{codigo}")
-    public String eliminar(@PathVariable String codigo) {
+    public String eliminar(@PathVariable Long codigo) {
         habitacionService.eliminarHabitacion(codigo);
         return "redirect:/habitaciones";
     }

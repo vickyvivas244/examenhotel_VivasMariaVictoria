@@ -17,7 +17,7 @@ public class HabitacionService {
     habitacionRepository.save(habitacion);
   }
 
-  public void eliminarHabitacion(String id) {
+  public void eliminarHabitacion(Long id) {
     Habitacion habitacion = habitacionRepository.findById(id)
         .orElseThrow(() -> new RuntimeException("No se pudo encontrar la habitacion con el id: " + id));
     habitacion.setEstado(false);
@@ -32,7 +32,7 @@ public class HabitacionService {
     return habitacionRepository.findByEstado(estado);
   }
 
-  public Habitacion buscarHabitacion(String codigo) {
+  public Habitacion buscarHabitacion(Long codigo) {
     return habitacionRepository.findById(codigo).orElse(null);
   }
 }

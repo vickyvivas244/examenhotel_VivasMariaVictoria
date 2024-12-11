@@ -1,10 +1,14 @@
 package ar.edu.unju.escmi.pv.controller;
 
+import java.time.LocalDate;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ar.edu.unju.escmi.pv.model.Habitacion;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import ar.edu.unju.escmi.pv.model.Reserva;
 import ar.edu.unju.escmi.pv.services.HabitacionService;
 import ar.edu.unju.escmi.pv.services.PasajeroService;
@@ -37,11 +41,29 @@ public class ReservaController {
     }
 
     @PostMapping("/guardar")
-    public String guardar(@ModelAttribute Reserva reserva) {
-        Habitacion habitacion = habitacionService.buscarHabitacion(reserva.getHabitacion().getCodigo());
-        reserva.setHabitacion(habitacion);
-        reservaService.guardar(reserva);
-        return "redirect:/reservas/lista";
+    public String guardarReserva(@ModelAttribute Reserva reserva, RedirectAttributes redirectAttributes) {
+        try {
+            if (reserva.getFechaReserva().isBefore(LocalDate.now())) {
+                throw new RuntimeException("La fecha de reserva no puede ser en el pasado.");
+            }
+            List<Reserva> reservas = reservaService.listar();
+            for (Reserva reserva1 : reservas) {
+
+                if (reserva1.getFechaReserva().equals(reserva.getFechaReserva())
+                        && reserva1.getHabitacion().getCodigo().equals(reserva.getHabitacion().getCodigo())) {
+                    throw new RuntimeException("La fecha de reserva ya existe o la habitacion esta reservada.");
+                }
+            }
+            reservaService.guardar(reserva);
+            redirectAttributes.addFlashAttribute("mensajeExito", "Reserva guardada exitosamente.");
+            return "redirect:/reservas/lista";
+
+        } catch (RuntimeException e) {
+            // Mensaje de error en caso de excepción
+            redirectAttributes.addFlashAttribute("mensajeError", e.getMessage());
+
+            return "redirect:/reservas/form";
+        }
     }
 
     @GetMapping("/eliminar/{id}")

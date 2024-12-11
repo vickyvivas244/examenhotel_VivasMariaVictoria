@@ -28,7 +28,7 @@ public class Pasajero {
     @NotNull	
     private String fechaNacimiento;
     @NotBlank(message="Debe ingresar Ciudad de Procedencia del Pasajero")
-	@Size(min=8, max=15,message="longitud de ciudad de procedencia no valida")
+	@Size(min=8, max=25,message="longitud de ciudad de procedencia no valida")
     private String ciudadProcedencia;
     @Enumerated(EnumType.STRING)
     private Nacionalidad nacionalidad; 
