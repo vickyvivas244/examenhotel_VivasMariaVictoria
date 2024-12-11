@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Lista de Habitaciones</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <h1>Lista de Habitaciones</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Código</th>
+                <th>Tipo</th>
+                <th>Servicios</th>
+                <th>Descripción</th>
+                <th>Estado</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="habitacion : ${habitaciones}">
+                <td th:text="${habitacion.codigo}"></td>
+                <td th:text="${habitacion.tipo}"></td>
+                <td th:text="${habitacion.servicios}"></td>
+                <td th:text="${habitacion.descripcion}"></td>
+                <td th:text="${habitacion.estado ? 'Disponible' : 'No Disponible'}"></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

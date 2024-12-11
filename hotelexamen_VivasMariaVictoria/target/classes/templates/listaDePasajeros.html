@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Lista de Pasajeros</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <h1>Lista de Pasajeros</h1>
+    <a href="formPasajero">Nuevo Pasajero</a>
+    <table>
+        <thead>
+            <tr>
+                <th>DNI</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="pasajero : ${pasajeros}">
+                <td th:text="${pasajero.dni}"></td>
+                <td th:text="${pasajero.nombre}"></td>
+                <td th:text="${pasajero.apellido}"></td>
+                <td th:text="${pasajero.estado ? 'Activo' : 'Inactivo'}"></td>
+                <td>
+                    <a th:href="@{'/pasajeros/eliminar/' + ${pasajero.dni}}">Eliminar</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <a href="/">Inicio</a>
+</body>
+</html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Formulario de Reserva</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <h1>Formulario de Reserva</h1>
+    <form th:action="@{/reservas/guardar}" th:object="${reserva}" method="post">
+        <div>
+            <label for="habitacion">Habitación:</label>
+            <input type="text" id="habitacion" name="habitacion.codigo" th:field="*{habitacion.codigo}" required>
+        </div>
+        <div>
+            <label for="fechaReserva">Fecha de Reserva:</label>
+            <input type="date" id="fechaReserva" name="fechaReserva" th:field="*{fechaReserva}" required>
+        </div>
+        <button type="submit">Guardar</button>
+    </form>
+    <a href="listaDeReservas">Volver a la lista</a>
+</body>
+</html>

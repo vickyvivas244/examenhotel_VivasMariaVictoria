@@ -1,44 +1,43 @@
 package ar.edu.unju.escmi.pv.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import ar.edu.unju.escmi.pv.model.Pasajero;
 import ar.edu.unju.escmi.pv.repository.PasajeroRepository;
+import org.springframework.ui.Model;  
+
 
 import jakarta.validation.Valid;
-import java.util.List;
 
-@RestController
+@Controller
 @RequestMapping("/pasajeros")
 public class PasajeroController {
 
     @Autowired
     private PasajeroRepository pasajeroRepository;
 
-    // Listar todos los pasajeros (con filtro opcional por estado)
-    @GetMapping
-    public ResponseEntity<List<Pasajero>> listar(@RequestParam(required = false) Boolean estado) {
-        List<Pasajero> pasajeros = (estado == null) 
-            ? pasajeroRepository.findAll() 
-            : pasajeroRepository.findByEstado(estado);
-        return ResponseEntity.ok(pasajeros);
+    @GetMapping("/lista")
+    public String listarPasajeros(Model model) {
+        model.addAttribute("pasajeros", pasajeroRepository.findAll());
+        return "listaDePasajeros";
     }
 
-    // Crear un pasajero
-    @PostMapping
-    public ResponseEntity<Pasajero> crear(@Valid @RequestBody Pasajero pasajero) {
-        Pasajero nuevoPasajero = pasajeroRepository.save(pasajero);
-        return ResponseEntity.ok(nuevoPasajero);
+    @GetMapping("/form")
+    public String mostrarFormulario(Model model) {
+        model.addAttribute("pasajero", new Pasajero());
+        return "formPasajero";
     }
 
-    // Eliminar lógicamente un pasajero
-    @DeleteMapping("/{dni}")
-    public ResponseEntity<Void> eliminar(@PathVariable String dni) {
-        Pasajero pasajero = pasajeroRepository.findById(dni)
-            .orElseThrow(() -> new RuntimeException("Pasajero no encontrado con el DNI: " + dni));
-        pasajero.setEstado(false); // Cambiar el estado a inactivo
+    @PostMapping("/guardar")
+    public String guardar(@Valid@ModelAttribute Pasajero pasajero) {
         pasajeroRepository.save(pasajero);
-        return ResponseEntity.noContent().build();
+        return "redirect:/pasajeros/lista";
+    }
+
+    @GetMapping("/eliminar/{dni}")
+    public String eliminar(@PathVariable String dni) {
+        pasajeroRepository.deleteById(dni);
+        return "redirect:/pasajeros/lista";
     }
 }
