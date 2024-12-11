@@ -5,7 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ar.edu.unju.escmi.pv.model.Habitacion;
-import ar.edu.unju.escmi.pv.repository.HabitacionRepository;
+import ar.edu.unju.escmi.pv.services.HabitacionService;
 import jakarta.validation.Valid;
 import org.springframework.validation.BindingResult;
 
@@ -14,7 +14,7 @@ import org.springframework.validation.BindingResult;
 public class HabitacionController {
 
     @Autowired
-    private HabitacionRepository habitacionRepository;
+    private HabitacionService habitacionService;
 
     @GetMapping("/form")
     public String mostrarFormulario(Model model) {
@@ -23,10 +23,11 @@ public class HabitacionController {
     }
 
     // Listar todas las habitaciones (vista)
-    @GetMapping
+    @GetMapping()
     public String listar(@RequestParam(required = false) Boolean estado, Model model) {
-        model.addAttribute("habitaciones", estado == null ? habitacionRepository.findAll() : habitacionRepository.findByEstado(estado));
-        return "listaDeHabitaciones"; // Ruta 
+        model.addAttribute("habitaciones",
+                estado == null ? habitacionService.listar() : habitacionService.listarEstado(estado));
+        return "listaDeHabitaciones"; // Ruta
     }
 
     // Mostrar formulario para crear una habitación
@@ -37,21 +38,19 @@ public class HabitacionController {
     }
 
     // Crear una habitación
-    @PostMapping
+    @PostMapping("/guardar")
     public String crear(@Valid @ModelAttribute Habitacion habitacion, BindingResult result, Model model) {
         if (result.hasErrors()) {
             return "formHabitacion";
         }
-        habitacionRepository.save(habitacion);
-        return "redirect:/listaDeHabitaciones"; // Redirige a la lista
+        habitacionService.guardarHabitacion(habitacion);
+        return "redirect:/habitaciones"; // Redirige a la lista
     }
 
     // Eliminar lógicamente una habitación
     @PostMapping("/eliminar/{codigo}")
     public String eliminar(@PathVariable String codigo) {
-        Habitacion habitacion = habitacionRepository.findById(codigo).orElseThrow(() -> new RuntimeException("Habitación no encontrada con el código: " + codigo));
-        habitacion.setEstado(false); // Cambiar el estado a inactivo
-        habitacionRepository.save(habitacion);
+        habitacionService.eliminarHabitacion(codigo);
         return "redirect:/habitaciones";
     }
 }

@@ -4,9 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import ar.edu.unju.escmi.pv.model.Pasajero;
-import ar.edu.unju.escmi.pv.repository.PasajeroRepository;
-import org.springframework.ui.Model;  
+import ar.edu.unju.escmi.pv.services.PasajeroService;
 
+import org.springframework.ui.Model;
 
 import jakarta.validation.Valid;
 
@@ -15,11 +15,11 @@ import jakarta.validation.Valid;
 public class PasajeroController {
 
     @Autowired
-    private PasajeroRepository pasajeroRepository;
+    private PasajeroService pasajeroService;
 
     @GetMapping("/lista")
     public String listarPasajeros(Model model) {
-        model.addAttribute("pasajeros", pasajeroRepository.findAll());
+        model.addAttribute("pasajeros", pasajeroService.listar());
         return "listaDePasajeros";
     }
 
@@ -30,14 +30,14 @@ public class PasajeroController {
     }
 
     @PostMapping("/guardar")
-    public String guardar(@Valid@ModelAttribute Pasajero pasajero) {
-        pasajeroRepository.save(pasajero);
+    public String guardar(@Valid @ModelAttribute Pasajero pasajero) {
+        pasajeroService.guardarPasajero(pasajero);
         return "redirect:/pasajeros/lista";
     }
 
     @GetMapping("/eliminar/{dni}")
     public String eliminar(@PathVariable String dni) {
-        pasajeroRepository.deleteById(dni);
+        pasajeroService.eliminarPasajero(dni);
         return "redirect:/pasajeros/lista";
     }
 }
